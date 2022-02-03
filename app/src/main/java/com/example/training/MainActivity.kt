@@ -24,30 +24,12 @@ class MainActivity : AppCompatActivity() {
 
         val spannableString = SpannableString(fullText)
 
-        val confidentialClickable = object : ClickableSpan(){
-            override fun onClick(widget: View) {
-                Snackbar.make(widget,"Go to link 1 ", Snackbar.LENGTH_LONG).show()
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.isUnderlineText = true
-                ds.color = getColor(R.color.purple_500)
-            }
-
+        val confidentialClickable = CustomClickableSpan{
+            Snackbar.make(it,"Go to link 1 ", Snackbar.LENGTH_LONG).show()
         }
 
-        val policyClickable = object : ClickableSpan(){
-            override fun onClick(widget: View) {
-                Snackbar.make(widget,"Go to link 2 ", Snackbar.LENGTH_LONG).show()
-            }
-
-            override fun updateDrawState(ds: TextPaint) {
-                super.updateDrawState(ds)
-                ds.isUnderlineText = true
-                ds.color = getColor(R.color.purple_500)
-            }
-
+        val policyClickable = CustomClickableSpan{
+            Snackbar.make(it,"Go to link 2 ", Snackbar.LENGTH_LONG).show()
         }
 
         spannableString.setSpan(
@@ -71,4 +53,17 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+}
+
+class CustomClickableSpan(private val lambda: (view: View) -> Unit) :ClickableSpan(){
+    override fun onClick(widget: View) {
+        lambda.invoke(widget)
+    }
+
+    override fun updateDrawState(ds: TextPaint) {
+        super.updateDrawState(ds)
+        ds.isUnderlineText = true
+        ds.color = Color.parseColor("#FF0000")
+    }
+
 }
