@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Hello World!"
+        app:drawableTopCompat="@android:drawable/ic_dialog_alert"
+        app:drawableTint="@color/black"
         android:textAppearance="@style/CustomTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
