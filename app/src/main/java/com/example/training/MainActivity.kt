@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,16 +29,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setImage() {
         val image = findViewById<ImageView>(R.id.image)
-        NetImage(URL, object : NetImage.ImageCallBack{
-            override fun success(bitmap: Bitmap) {
-                image.setImageBitmap(bitmap)
-            }
 
-            override fun failed() {
-                Snackbar.make(image,"failed",Snackbar.LENGTH_SHORT).show()
-            }
+        Picasso.get().load(URL).centerCrop()
+            .resize(512,512)
+            .placeholder(android.R.drawable.ic_media_pause)
+            .error(android.R.drawable.ic_dialog_alert)
+            .into(image)
 
-        }).start()
     }
 
     fun setSpannable(){
