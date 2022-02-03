@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -12,8 +13,12 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +30,27 @@ class MainActivity : AppCompatActivity() {
 
         setImage()
 
+        setEditText()
 
+
+    }
+
+    private fun setEditText() {
+        val textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
+        val textInputEditLayout = textInputLayout.editText as TextInputEditText
+
+        textInputEditLayout.addTextChangedListener( object  : SimpleTextWatcher(){
+            override fun afterTextChanged(s: Editable?) {
+                val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
+                textInputLayout.isErrorEnabled = !valid
+                val error = if (valid) "" else getString(R.string.invalid_email_message)
+                textInputLayout.error = error
+                if(valid) Toast.makeText(
+                    this@MainActivity,
+                R.string.valid_email_message,
+                Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun setImage() {
