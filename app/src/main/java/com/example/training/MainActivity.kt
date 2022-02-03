@@ -41,14 +41,11 @@ class MainActivity : AppCompatActivity() {
 
         textInputEditLayout.addTextChangedListener( object  : SimpleTextWatcher(){
             override fun afterTextChanged(s: Editable?) {
-                val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
-                textInputLayout.isErrorEnabled = !valid
-                val error = if (valid) "" else getString(R.string.invalid_email_message)
-                textInputLayout.error = error
-                if(valid) Toast.makeText(
-                    this@MainActivity,
-                R.string.valid_email_message,
-                Toast.LENGTH_LONG).show()
+                val input = s.toString()
+                if(input.endsWith("@g")){
+                    val fullEmail = "${input}mail.com"
+                    textInputEditLayout.setTextCorrectly(fullEmail)
+                }
             }
         })
     }
@@ -109,5 +106,11 @@ class MainActivity : AppCompatActivity() {
     companion object{
         const val URL = "https://cdn.icon-icons.com/icons2/3276/PNG/512/slice_cake_birthday_cake_dessert_sweet_icon_207992.png"
     }
+}
+
+private fun TextInputEditText.setTextCorrectly(text: String) {
+    setText(text)
+    setSelection(text.length)
+
 }
 
