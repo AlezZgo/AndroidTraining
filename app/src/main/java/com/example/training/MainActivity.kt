@@ -1,5 +1,6 @@
 package com.example.training
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 
@@ -16,6 +18,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSpannable()
+
+        setImage()
+
+
+    }
+
+    private fun setImage() {
+        val image = findViewById<ImageView>(R.id.image)
+        NetImage(URL, object : NetImage.ImageCallBack{
+            override fun success(bitmap: Bitmap) {
+                image.setImageBitmap(bitmap)
+            }
+
+            override fun failed() {
+                Snackbar.make(image,"failed",Snackbar.LENGTH_SHORT).show()
+            }
+
+        }).start()
+    }
+
+    fun setSpannable(){
         val tv = findViewById<TextView>(R.id.text)
 
         val fullText = getString(R.string.agreement_full_text)
@@ -51,19 +76,10 @@ class MainActivity : AppCompatActivity() {
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT
         }
+    }
 
+    companion object{
+        const val URL = "https://cdn.icon-icons.com/icons2/3276/PNG/512/slice_cake_birthday_cake_dessert_sweet_icon_207992.png"
     }
 }
 
-class CustomClickableSpan(private val lambda: (view: View) -> Unit) :ClickableSpan(){
-    override fun onClick(widget: View) {
-        lambda.invoke(widget)
-    }
-
-    override fun updateDrawState(ds: TextPaint) {
-        super.updateDrawState(ds)
-        ds.isUnderlineText = true
-        ds.color = Color.parseColor("#FF0000")
-    }
-
-}
