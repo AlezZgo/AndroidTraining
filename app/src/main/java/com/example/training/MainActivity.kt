@@ -4,12 +4,10 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextPaint
+import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,6 +20,19 @@ import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var textInputEditText: TextInputEditText
+
+    private val textWatcher: TextWatcher = object : SimpleTextWatcher(){
+        override fun afterTextChanged(s: Editable?) {
+            val input = s.toString()
+            if(input.endsWith("@g")){
+                val fullEmail = "${input}mail.com"
+                textInputEditText.setTextCorrectly(fullEmail)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,17 +48,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setEditText() {
         val textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
-        val textInputEditLayout = textInputLayout.editText as TextInputEditText
+        textInputEditText = textInputLayout.editText as TextInputEditText
+        textInputEditText.addTextChangedListener(textWatcher)
 
-        textInputEditLayout.addTextChangedListener( object  : SimpleTextWatcher(){
-            override fun afterTextChanged(s: Editable?) {
-                val input = s.toString()
-                if(input.endsWith("@g")){
-                    val fullEmail = "${input}mail.com"
-                    textInputEditLayout.setTextCorrectly(fullEmail)
-                }
+        textInputEditText.listenChanges { text -> Log.d(TAG,text) }
+    }
+
+    private fun TextInputEditText.listenChanges(block: (text: String) -> Unit){
+        addTextChangedListener(object : SimpleTextWatcher(){
+            override fun afterTextChanged(p0: Editable?) {
+                block.invoke(text.toString())
             }
         })
+    }
+
+    private fun TextInputEditText.setTextCorrectly(text: String) {
+        setText(text)
+        setSelection(text.length)
     }
 
     private fun setImage() {
@@ -105,12 +122,9 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         const val URL = "https://cdn.icon-icons.com/icons2/3276/PNG/512/slice_cake_birthday_cake_dessert_sweet_icon_207992.png"
+        const val TAG = "text_changed"
     }
 }
 
-private fun TextInputEditText.setTextCorrectly(text: String) {
-    setText(text)
-    setSelection(text.length)
 
-}
 
