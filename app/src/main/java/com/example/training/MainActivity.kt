@@ -12,6 +12,7 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
@@ -28,13 +29,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setImage() {
+
         val image = findViewById<ImageView>(R.id.image)
 
-        Picasso.get().load(URL).centerCrop()
-            .resize(512,512)
-            .placeholder(android.R.drawable.ic_media_pause)
-            .error(android.R.drawable.ic_dialog_alert)
-            .into(image)
+        Glide
+            .with(this)
+            .load(URL)
+            .centerCrop()
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .error(R.drawable.ic_launcher_background)
+            .into(image);
+
 
     }
 
