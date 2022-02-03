@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Тренинг</string>
+    <string name="agreement_full_text">Нажимая на эту кнопку вы подтверждаете, что ознакомились с условиями использования и политикой конфиденциальности</string>
+    <string name="confidential_enfo">условиями использования</string>
+    <string name="privacy_policy">политикой конфиденциальности</string>
+</resources>
