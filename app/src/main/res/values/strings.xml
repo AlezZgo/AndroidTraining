@@ -6,4 +6,5 @@
     <string name="camera" translatable="false">camera</string>
     <string name="invalid_email_message" translatable="false">invalid email message</string>
     <string name="valid_email_message" translatable="false">valid email message</string>
+    <string name="email">Email</string>
 </resources>

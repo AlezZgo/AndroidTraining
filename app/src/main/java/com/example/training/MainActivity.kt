@@ -8,7 +8,9 @@ import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
+import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -22,6 +24,7 @@ import com.squareup.picasso.Picasso
 class MainActivity : AppCompatActivity() {
 
     private lateinit var textInputEditText: TextInputEditText
+    private lateinit var textInputLayout: TextInputLayout
 
     private val textWatcher: TextWatcher = object : SimpleTextWatcher(){
         override fun afterTextChanged(s: Editable?) {
@@ -43,15 +46,30 @@ class MainActivity : AppCompatActivity() {
 
         setEditText()
 
+        setButton()
+
 
     }
 
+    private fun setButton() {
+        val loginButton = findViewById<Button>(R.id.button)
+        loginButton.setOnClickListener {
+            if(EMAIL_ADDRESS.matcher(textInputEditText.text.toString()).matches()){
+                Snackbar.make(loginButton,"Go to postLogin", Snackbar.LENGTH_LONG).show()
+            }else{
+                textInputLayout.isErrorEnabled = true
+                textInputLayout.error = getString(R.string.invalid_email_message)
+
+            }
+        }
+    }
+
     private fun setEditText() {
-        val textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
+        textInputLayout = findViewById(R.id.textInputLayout)
         textInputEditText = textInputLayout.editText as TextInputEditText
         textInputEditText.addTextChangedListener(textWatcher)
 
-        textInputEditText.listenChanges { text -> Log.d(TAG,text) }
+        textInputEditText.listenChanges { textInputLayout.isErrorEnabled = false }
     }
 
     private fun TextInputEditText.listenChanges(block: (text: String) -> Unit){
