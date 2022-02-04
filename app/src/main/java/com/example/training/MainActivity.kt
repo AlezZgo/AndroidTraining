@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setSpannable(){
-        val tv = findViewById<TextView>(R.id.text)
+        val tv = findViewById<TextView>(R.id.text_agreement)
 
         val fullText = getString(R.string.agreement_full_text)
         val confidential = getString(R.string.confidential_enfo)
