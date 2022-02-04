@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -11,10 +13,7 @@ import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -55,10 +54,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun setButton() {
         val loginButton = findViewById<Button>(R.id.button)
+        val contentLayout = findViewById<LinearLayout>(R.id.contentLayout)
+        val progressBar = findViewById<ProgressBar>(R.id.pb)
         loginButton.setOnClickListener {
             if(EMAIL_ADDRESS.matcher(textInputEditText.text.toString()).matches()){
-                Snackbar.make(loginButton,"Go to postLogin", Snackbar.LENGTH_LONG).show()
                 hideKeyBoard(textInputEditText)
+                contentLayout.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                Snackbar.make(loginButton,"Go to postLogin",Snackbar.LENGTH_LONG).show()
+                Handler(Looper.myLooper()!!).postDelayed({
+                    contentLayout.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
+                },3000)
             }else{
                 textInputLayout.isErrorEnabled = true
                 textInputLayout.error = getString(R.string.invalid_email_message)
