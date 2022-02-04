@@ -11,11 +11,13 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -65,6 +67,14 @@ class MainActivity : AppCompatActivity() {
                 Handler(Looper.myLooper()!!).postDelayed({
                     contentLayout.visibility = View.VISIBLE
                     progressBar.visibility = View.GONE
+                    val dialog = BottomSheetDialog(this)
+                    val view = LayoutInflater.from(this).inflate(R.layout.dialog,contentLayout,false)
+                    dialog.setCancelable(false)
+                    view.findViewById<View>(R.id.closeButton).setOnClickListener{
+                        dialog.dismiss()
+                    }
+                    dialog.setContentView(view)
+                    dialog.show()
                 },3000)
             }else{
                 textInputLayout.isErrorEnabled = true
