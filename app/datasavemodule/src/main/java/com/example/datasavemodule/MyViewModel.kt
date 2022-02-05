@@ -15,11 +15,19 @@ class MyViewModel(private val model: Model) {
 
     fun init(textObservable: TextObservable?) {
         this.textObservable = textObservable
-        model.start(textCallBack)
+
     }
 
     fun clear(){
         textObservable = null
+    }
+
+    fun resumeCounting() {
+        model.start(textCallBack)
+    }
+
+    fun pauseCounting() {
+        model.stop()
     }
 
 }

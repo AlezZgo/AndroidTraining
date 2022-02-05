@@ -25,6 +25,16 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.resumeCounting()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.pauseCounting()
+    }
+
     override fun onDestroy() {
         viewModel.clear()
         super.onDestroy()
