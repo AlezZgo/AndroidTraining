@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i("log","onCreate")
         setContentView(R.layout.activity_main)
 
         setSpannable()
@@ -53,6 +54,38 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("log","onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("log","onPause")
+        textInputEditText.removeTextChangedListener(textWatcher)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("log","onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("log","onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("log","onDestroy")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+    }
+
+
 
     private fun setButton() {
         val loginButton = findViewById<Button>(R.id.button)
@@ -92,8 +125,6 @@ class MainActivity : AppCompatActivity() {
     private fun setEditText() {
         textInputLayout = findViewById(R.id.textInputLayout)
         textInputEditText = textInputLayout.editText as TextInputEditText
-        textInputEditText.addTextChangedListener(textWatcher)
-
         textInputEditText.listenChanges { textInputLayout.isErrorEnabled = false }
     }
 
