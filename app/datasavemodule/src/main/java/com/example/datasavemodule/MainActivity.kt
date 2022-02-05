@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.tv)
         val observable = TextObservable()
         observable.observe(object : TextCallBack {
-            override fun updateText(str: String) {
+            override fun updateText(str: String) = runOnUiThread {
                 textView.text = str
             }
 

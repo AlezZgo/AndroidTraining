@@ -21,12 +21,12 @@ class TextObservable {
 
     private lateinit var callBack: TextCallBack
 
-    fun observe(callback: TextCallBack){
-        this.callBack = callBack
+    fun observe(cb: TextCallBack){
+        this.callBack = cb
     }
 
     fun postValue(str: String) {
-        TODO("Not yet implemented")
+        callBack.updateText(str)
     }
 
 }
