@@ -2,17 +2,24 @@ package com.example.datasavemodule
 
 import java.util.*
 
-class MyViewModel(private val textObservable: TextObservable) {
+class MyViewModel(private val model: Model) {
 
-    private val model = Model(object : TextCallBack{
+    private var textObservable: TextObservable? = null
+
+    private val textCallBack = object : TextCallBack{
         override fun updateText(str: String) {
-            textObservable.postValue(str)
+            textObservable?.postValue(str)
         }
+    }
 
-    })
 
-    fun init() {
-        model.start()
+    fun init(textObservable: TextObservable?) {
+        this.textObservable = textObservable
+        model.start(textCallBack)
+    }
+
+    fun clear(){
+        textObservable = null
     }
 
 }
