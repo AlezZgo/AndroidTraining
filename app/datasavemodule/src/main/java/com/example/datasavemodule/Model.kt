@@ -16,15 +16,14 @@ class Model(private val dataSource: DataSource) {
         }
 
     private var textCallBack: TextCallBack? = null
-    private var count = 0
+    private var count = -1
 
     fun start(textCallBack: TextCallBack) {
         this.textCallBack = textCallBack
-        if (count < 0) {
+        if (count < 0)
             count = dataSource.getInt(COUNTER_KEY)
-        }
         timer = Timer()
-        timer?.scheduleAtFixedRate(timerTask, 1000, 1000)
+        timer?.scheduleAtFixedRate(timerTask, 0, 1000)
     }
 
     fun stop() {
@@ -35,7 +34,6 @@ class Model(private val dataSource: DataSource) {
 
     companion object{
         private const val COUNTER_KEY = "counterKey"
-        private const val TAG = "uniqueCounterTag"
     }
 
 }
