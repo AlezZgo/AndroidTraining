@@ -2,34 +2,31 @@ package com.example.datasavemodule
 
 import java.util.*
 
-class Model(private val dataSource: DataSource) {
+class Model(private val dataSource: DataSource,
+            private val timeTicker: TimeTicker) {
 
-    private var timer: Timer? = null
-
-    private val timerTask
-        get() = object : TimerTask() {
-            override fun run() {
+    private val tickerCallBack
+        get() = object : TimeTicker.Callback {
+            override fun tick() {
                 count++
-                textCallBack?.updateText(count.toString())
+                callBack?.updateText(count.toString())
             }
 
         }
 
-    private var textCallBack: TextCallBack? = null
+    private var callBack: TextCallBack? = null
     private var count = -1
 
     fun start(textCallBack: TextCallBack) {
-        this.textCallBack = textCallBack
+        callBack = textCallBack
         if (count < 0)
             count = dataSource.getInt(COUNTER_KEY)
-        timer = Timer()
-        timer?.scheduleAtFixedRate(timerTask, 0, 1000)
+        timeTicker.start(tickerCallBack)
     }
 
     fun stop() {
         dataSource.saveInt(COUNTER_KEY,count)
-        timer?.cancel()
-        timer = null
+        timeTicker.stop()
     }
 
     companion object{
