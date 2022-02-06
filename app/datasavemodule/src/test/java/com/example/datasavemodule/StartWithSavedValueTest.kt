@@ -26,12 +26,11 @@ class StartWithSavedValueTest {
         testDataSource.saveInt("",5)
         model.start(callback)
         Thread.sleep(2010)
-        val actual = callback.text
-        val expected = "5"
+        val savedCountActual = testDataSource.getInt("")
+        val savedCountExpected = 2
+        assertEquals(savedCountExpected,savedCountActual)
 
 
-
-        assertEquals(expected, actual)
     }
 
 }
