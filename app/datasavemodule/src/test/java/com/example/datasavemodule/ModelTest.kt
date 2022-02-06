@@ -1,10 +1,9 @@
 package com.example.datasavemodule
 
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Test
 
-class StartWithSavedValueTest {
-
+class ModelTest{
     @Test
     fun test_start_with_saved_value(){
         val testDataSource = TestDataSource()
@@ -40,5 +39,4 @@ class StartWithSavedValueTest {
 
 
     }
-
 }
