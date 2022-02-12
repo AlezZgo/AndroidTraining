@@ -16,3 +16,4 @@ rootProject.name = "Training"
 include ':app'
 include ':app:datasavemodule'
 include ':app:testlearningmodule'
+include ':interactionbtwmodels'
