@@ -18,12 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ConnectionReceiver"
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="com.alezzgo.provider.myapprovider" />
+        <receiver
+            android:name=".AirplaneModeReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.AIRPLANE_MODE" />
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>

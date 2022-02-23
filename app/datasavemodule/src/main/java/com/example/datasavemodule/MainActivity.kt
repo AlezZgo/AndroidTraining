@@ -1,42 +1,36 @@
 package com.example.datasavemodule
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import java.io.InputStream
+
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var viewModel: MyViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = (application as MyApp).viewModel
-        val textView = findViewById<TextView>(R.id.tv)
-        val observable = TextObservable()
-        observable.observe(object : TextCallBack {
-            override fun updateText(str: String) = runOnUiThread {
-                textView.text = str
-            }
 
-        })
+        val imageView = findViewById<ImageView>(R.id.imageView)
+        val button = findViewById<Button>(R.id.button)
 
-        viewModel.init(observable)
+        val getContent = registerForActivityResult(ActivityResultContracts.GetContent()){
+            imageView.setImageURI(it)
+        }
+
+        button.setOnClickListener {
+            getContent.launch("image/*")
+        }
+
+
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.resumeCounting()
-    }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.pauseCounting()
-    }
 
-    override fun onDestroy() {
-        viewModel.clear()
-        super.onDestroy()
-    }
 }
